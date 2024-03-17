@@ -12,12 +12,15 @@ export const ReviewModel = new EntitySchema({
             generated: true
         },
         listingId: {
-            type: "int",
+            type: "int"
         },
         review: {
-            type: "varchar",
+            type: "varchar"
         },
         userId:{
+            type: "int"
+        },
+        rating: {
             type: "int"
         }
     }
