@@ -5,8 +5,6 @@ import cors from 'cors';
 import dotenv from 'dotenv'
 import { DataSource } from "typeorm"
 import  { remoteDbConfig, localDbConfig } from '../db/ormconfig.js';
-import { initializeApp } from 'firebase/app'
-import { firebaseConfig } from '../db/firebase.config.js';
 
 dotenv.config()
 
@@ -20,7 +18,6 @@ app.use('/', routes)
 const ENV = process.env
 const NODE_PORT = ENV.NODE_PORT || 3000;
 
-export const firebaseApp = initializeApp(firebaseConfig)
 
 export const AppDataSource = new DataSource(ENV.USE_DB === "LOCAL" ? localDbConfig : remoteDbConfig)
 
