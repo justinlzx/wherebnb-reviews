@@ -28,3 +28,17 @@ export const getAll = async () => {
         throw `GetAllError: ${error}`;
     }
 };
+
+export const getAverageRating = async (listingId) => {
+    try {
+        const result = await AppDataSource.createQueryBuilder()
+            .select("AVG(review.rating)", "average")
+            .from(ReviewModel, "review")
+            .where("review.listingId = :listingId", { listingId })
+            .getRawOne();
+        return result;
+    } catch (error) {
+        console.log(`${chalk.red('Error:')} ${error}`)
+        throw `GetAverageError: ${error}`;
+    }
+};

@@ -1,4 +1,4 @@
-import { create, getAll } from '../service/review.service.js';
+import { create, getAll, getAverageRating } from '../service/review.service.js';
 
 export const createReview = async (req, res) => {
     const { review, listingId, userId, rating } = req.body;
@@ -11,7 +11,12 @@ export const createReview = async (req, res) => {
             rating
         });
 
-        return res.status(201).json(result);
+        const newRating = await getAverageRating(listingId);
+
+        return res.status(201).json({
+            result,
+            newRating
+        });
     }
     catch (error) {
         throw new Error(error.message)
