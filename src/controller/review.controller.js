@@ -1,8 +1,8 @@
-import { create, getAll, getAverageRating } from '../service/review.service.js';
+import { create, getAll, getAverageRating, sendReviewNotification } from '../service/review.service.js';
 import axios from 'axios';
 
 export const createReview = async (req, res, next) => {
-    const { review, listingId, userId, rating } = req.body;
+    const { review, listingId, userId, rating, emailType, travelerEmail, hostEmail } = req.body;
 
     try {
         await create({
@@ -19,14 +19,18 @@ export const createReview = async (req, res, next) => {
         });
 
         const newRating = await getAverageRating(listingId);
-
+        // console.log("getting new rating", newRating)
         await axios.put(`${process.env.ACCOMS_URL}/accoms/${listingId}`, {
             rating: newRating.average
         })
         .then(() => {
-            return res.status(201).json('Review created and rating updated successfully');
+            return res.status(201).json('Review created and rating updated successfully'); 
+        })
+        .then(() => {
+            sendReviewNotification(req.body)
         })
         .catch((error) => {
+            console.log(error)
             next(error)
         });
     }
