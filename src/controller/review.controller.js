@@ -48,3 +48,15 @@ export const getAllReviews = async (_, res, next) => {
        next(error)
     }
 };
+
+export const getAllReviewsByListingId = async (req, res, next) => {
+    const { listingId } = req.params;
+    
+    try {
+        const result = await getAll(listingId);
+        return res.status(200).json(result);
+    }
+    catch (error) {
+       next(error)
+    }
+}
