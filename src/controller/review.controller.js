@@ -43,14 +43,18 @@ export const createReview = async (req, res, next) => {
     }
 };
 
+
 export const getAllReviewsById = async (req, res, next) => {
     const { listingId } = req.params;
     
     try {
+        console.log(`Fetching reviews for listingId: ${listingId}`);
         const result = await getReviewsById(listingId);
-        return res.status(200).json(res, result);
+        console.log(`Fetched reviews: ${JSON.stringify(result)}`);
+        return res.status(200).json(result);
     }
     catch (error) {
-        res.status(status).json(obj)
+        console.error(`Error fetching reviews for listingId: ${listingId}`, error);
+        return next(error);
     }
 }
