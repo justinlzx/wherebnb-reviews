@@ -35,16 +35,31 @@ export const create = async (payload) => {
     }
 }
 
-export const getAll = async () => {
+// export const getAll = async () => {
+//     try {
+//         const result = await AppDataSource.createQueryBuilder()
+//             .select("review")
+//             .from(ReviewModel, "review")
+//             .getMany();
+//         return result;
+//     } catch (error) {
+//         console.log(`${chalk.red('Error:')} ${error}`)
+//         throw `GetAllError: ${error}`;
+//     }
+// };
+
+export const getReviewsById = async (listingId) => {
     try {
-        const result = await AppDataSource.createQueryBuilder()
+        const result = await AppDataSource
+            .createQueryBuilder()
             .select("review")
             .from(ReviewModel, "review")
+            .where("review.listingId = :listingId", { listingId })
             .getMany();
         return result;
     } catch (error) {
         console.log(`${chalk.red('Error:')} ${error}`)
-        throw `GetAllError: ${error}`;
+        throw `GetByIdError: ${error}`;
     }
 };
 

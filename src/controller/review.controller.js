@@ -1,4 +1,8 @@
-import { create, getAll, getAverageRating, sendReviewNotification } from '../service/review.service.js';
+import { create, 
+        getAverageRating, 
+        getReviewsById, 
+        sendReviewNotification, 
+        } from '../service/review.service.js';
 import axios from 'axios';
 
 export const createReview = async (req, res, next) => {
@@ -39,24 +43,14 @@ export const createReview = async (req, res, next) => {
     }
 };
 
-export const getAllReviews = async (_, res, next) => {
-    try {
-        const result = await getAll();
-        return res.status(200).json(result);
-    }
-    catch (error) {
-       next(error)
-    }
-};
-
-export const getAllReviewsByListingId = async (req, res, next) => {
+export const getAllReviewsById = async (req, res, next) => {
     const { listingId } = req.params;
     
     try {
-        const result = await getAll(listingId);
-        return res.status(200).json(result);
+        const result = await getReviewsById(listingId);
+        return res.status(200).json(res, result);
     }
     catch (error) {
-       next(error)
+        res.status(status).json(obj)
     }
 }
