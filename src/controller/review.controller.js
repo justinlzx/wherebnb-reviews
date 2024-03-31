@@ -24,8 +24,6 @@ export const createReview = async (req, res, next) => {
             next(error)
         });
 
-        console.log('review:', review)
-
         const newRating = await getAverageRating(listingId);
 
         await axios.put(`${process.env.ACCOMS_URL}/listings/${listingId}`, {
