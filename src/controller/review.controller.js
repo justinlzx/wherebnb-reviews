@@ -23,8 +23,8 @@ export const createReview = async (req, res, next) => {
         });
 
         const newRating = await getAverageRating(listingId);
-        // console.log("getting new rating", newRating)
-        await axios.put(`${process.env.ACCOMS_URL}/accoms/${listingId}`, {
+
+        await axios.put(`${process.env.ACCOMS_URL}/listings/${listingId}`, {
             rating: newRating.average
         })
         .then(() => {
