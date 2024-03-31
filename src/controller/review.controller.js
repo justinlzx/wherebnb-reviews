@@ -6,14 +6,16 @@ import { create,
 import axios from 'axios';
 
 export const createReview = async (req, res, next) => {
-    const { review, listingId, userId, rating, emailType, travelerEmail, hostEmail } = req.body;
+    const { review, listingId, guestId, guestName, propertyName, rating, hostId } = req.body;
 
     try {
+        const hostInfo = await axios.get(`${process.env.ACCOUNTS_URL}/view/${hostId}`);
+
         await create({
             review,
             listingId,
-            userId,
-            rating
+            userId: guestId,
+            rating,
         })
         .then(() => {
             console.log('Review created successfully')
@@ -22,16 +24,27 @@ export const createReview = async (req, res, next) => {
             next(error)
         });
 
+        console.log('review:', review)
+
         const newRating = await getAverageRating(listingId);
 
         await axios.put(`${process.env.ACCOMS_URL}/listings/${listingId}`, {
             rating: newRating.average
         })
         .then(() => {
-            return res.status(201).json('Review created and rating updated successfully'); 
+            console.log('Review created and rating updated successfully'); 
         })
         .then(() => {
-            sendReviewNotification(req.body)
+            sendReviewNotification({
+                emailType: 'hostReview',
+                hostEmail: hostInfo.data.data.email,
+                hostName: hostInfo.data.data.firstName,
+                propertyName,
+                travelerName: guestName,
+                reviewRating: +newRating.average,
+                reviewComments: review
+            })
+            return res.status(201).json({ success: true, message: 'Review created and host notified successfully' });
         })
         .catch((error) => {
             console.log(error)
@@ -39,7 +52,7 @@ export const createReview = async (req, res, next) => {
         });
     }
     catch (error) {
-       next(error)
+        return res.status(500).json({ success: false, message: 'Failed to create review successfully' });
     }
 };
 

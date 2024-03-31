@@ -4,7 +4,7 @@ import chalk from 'chalk';
 
 //send notification
 export async function sendReviewNotification(payload) {
-    const response = await fetch('http://localhost:3006/rabbit', {
+    const response = await fetch(`${process.env.NOTIFICATIONS_URL}/rabbit`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -34,19 +34,6 @@ export const create = async (payload) => {
         throw `UploadError: ${error}`;
     }
 }
-
-// export const getAll = async () => {
-//     try {
-//         const result = await AppDataSource.createQueryBuilder()
-//             .select("review")
-//             .from(ReviewModel, "review")
-//             .getMany();
-//         return result;
-//     } catch (error) {
-//         console.log(`${chalk.red('Error:')} ${error}`)
-//         throw `GetAllError: ${error}`;
-//     }
-// };
 
 export const getReviewsById = async (listingId) => {
     try {
