@@ -14,7 +14,7 @@ export async function sendReviewNotification(payload) {
     console.log('Review notification sent');
 
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        return new Error(`HTTP error! status: ${response.status}`);
     }
 
     return await response.json();
@@ -31,7 +31,7 @@ export const create = async (payload) => {
         return result;
     } catch (error) {
         console.log(`${chalk.red('Error:')} ${error}`)
-        throw `UploadError: ${error}`;
+        return `UploadError: ${error}`;
     }
 }
 
@@ -46,7 +46,7 @@ export const getReviewsById = async (listingId) => {
         return result;
     } catch (error) {
         console.log(`${chalk.red('Error:')} ${error}`)
-        throw `GetByIdError: ${error}`;
+        return `GetByIdError: ${error}`;
     }
 };
 
@@ -60,7 +60,7 @@ export const getAverageRating = async (listingId) => {
         return result;
     } catch (error) {
         console.log(`${chalk.red('Error:')} ${error}`)
-        throw `GetAverageError: ${error}`;
+        return `GetAverageError: ${error}`;
     }
 };
 

@@ -4,10 +4,11 @@ import { create,
         sendReviewNotification, 
         } from '../service/review.service.js';
 import axios from 'axios';
+import Res from '../Res/response.js'
 
 export const createReview = async (req, res, next) => {
     const { review, listingId, guestId, guestName, propertyName, rating, hostId } = req.body;
-
+    
     try {
         const hostInfo = await axios.get(`${process.env.ACCOUNTS_URL}/view/${hostId}`);
 
@@ -42,7 +43,7 @@ export const createReview = async (req, res, next) => {
                 reviewRating: +newRating.average,
                 reviewComments: review
             })
-            return res.status(201).json({ success: true, message: 'Review created and host notified successfully' });
+            return Res.successResponse(res, 'Review created and host notified', 201)
         })
         .catch((error) => {
             console.log(error)
@@ -50,7 +51,7 @@ export const createReview = async (req, res, next) => {
         });
     }
     catch (error) {
-        return res.status(500).json({ success: false, message: 'Failed to create review successfully' });
+        return Res.errorResponse(res, 'Failed to create review');
     }
 };
 
