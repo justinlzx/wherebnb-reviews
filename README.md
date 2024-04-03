@@ -1,1 +1,1 @@
-# wherebnb-recommendations
+# wherebnb-reviews
