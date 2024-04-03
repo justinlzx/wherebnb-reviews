@@ -43,9 +43,28 @@ wherebnb-reviews is an orchestrator that receives review data from wherebnb-fron
     CHECKIN_URL=http://localhost:3008
   ```
 
-3. Build and run the Docker container:
+3. (a) Build and run the Docker container:
 
     ```sh
     docker build -t wherebnb-reviews .
     docker run -p 3007:3007 wherebnb-reviews
     ```
+3. (b) Run app on development server:
+
+- connect to the cloud database
+  ```sh
+    npm run dev:remote 
+  ```
+- connect to the local database
+  ```sh
+    npm run dev 
+  ```
+
+- Synchronise cloud database with ORM
+  ```sh
+    npm run sync:remote
+  ```
+- Synchronise local database with ORM
+  ```sh
+    npm run sync
+  ```
