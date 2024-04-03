@@ -8,8 +8,12 @@ wherebnb-reviews is an orchestrator that receives review data from wherebnb-fron
 
 ## Getting Started
 1. Clone the repository
+2. Install dependencies
+``sh
+  npm install
+``
 
-2. Create a `.env` file in the root directory
+3. Create a `.env` file in the root directory
 
   ```sh
     NODE_PORT = 3007
